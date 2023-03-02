@@ -1,0 +1,9 @@
+* { 
+  box-sizing: border-box;
+}
+  .profile-image  {
+    transition: all .8s;
+  }
+  .profile-image:hover  {
+    transform: scale(1.3) rotate(100deg);
+  }

@@ -1,24 +1,35 @@
-from sqlalchemy import create_engine, Column, Integer, String, Date
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 import datetime
 
 
-engine = create_engine('sqlite:///media.db', echo=True)
-Session = sessionmaker(bind=engine)
-session = Session()
-Base = declarative_base()
+db = SQLAlchemy()
 
-class Book(Base):
-    __tablename__ = 'media'
-    id = Column(Integer, primary_key=True)
-    title = Column("Title", String)
-    writer = Column("Writer", String)
-    visionary = Column("Visionary", String)
-    date = Column("Published", Date)
-    medium = Column("Medium", String)
-    status = Column("Status", String)
-    genre = Column("Genres", String)
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///library.db'
+db.init_app(app)
+
+
+class Piece(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column("Title", db.String())
+    writer = db.Column("Writer", db.String())
+    visionary = db.Column("Visionary", db.String())
+    published = db.Column("Published", db.DateTime)
+    finished = db.Column("Finished", db.DateTime)
+    medium = db.Column("Medium", db.String())
+    status = db.Column("Status", db.String())
+    tier = db.Column("Tier", db.String())
+    genre = db.Column("Genres", db.Text)
+    notes = db.Column("Notes", db.Text)
+    description = db.Column("Description", db.Text)
     
     def __repr__(self):
-        return f'*Presently {self.status} *{self.title}*, a *{self.medium}* written by *{self.writer}* and visualized by *{self.visionary}*, written *{self.date}*, in these genres: {self.genre}.'
+        return (f'''
+                \r*Presently {self.status} *{self.title}*
+                \rA *{self.medium}* written by *{self.writer}* and visualized by *{self.visionary}*
+                \rwritten *{self.published}*, I finished it *{self.finished}*
+                \rin these genres: {self.genre}
+                \rThe story: {self.description}
+                \rI think it's {self.tier} tier, {self.notes}
+                ''')
