@@ -1,0 +1,9 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<section id="not-found">
+    <h2>Hmm... We don't have this in our library</h2>
+    <p>{{ msg }}</p>
+    <a href="{{ url_for('index') }}"><button>Go Home</button></a>
+</section>
+{% endblock %}

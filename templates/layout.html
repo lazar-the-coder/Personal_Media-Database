@@ -9,7 +9,12 @@
 <html>
     <body>
         <header>
-            <p>Yolo</p>
+            <p><a href="{{ url_for('index') }}">Your Media Library</a></p>
+            <ul>
+                <li><a href="{{ url_for('about') }}">About</a></li>
+                <li><a href="{{ url_for('searcher') }}">Searcher</a></li>
+                <li><a href="{{ url_for('add_piece') }}">Add Piece</a></li>
+            </ul>
         </header>
         <main>
             {% block content %}
